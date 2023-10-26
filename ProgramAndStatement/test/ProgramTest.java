@@ -13,7 +13,7 @@ import components.statement.Statement;
  * JUnit test fixture for {@code Program}'s constructor and kernel methods.
  *
  * @author Wayne Heym
- * @author Put your name here
+ * @author Nicholas McCracken and Jack Mikesell
  *
  */
 public abstract class ProgramTest {

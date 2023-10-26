@@ -22,9 +22,9 @@ public abstract class StatementTest {
     /**
      * The name of a file containing a sequence of BL statements.
      */
-    private static final String FILE_NAME_1 = "data/statement-sample.bl";
-
-    // TODO - define file names for additional test inputs
+    private static final String FILE_NAME_1 = "data/statement-sample-1.bl";
+    private static final String FILE_NAME_2 = "data/statement-sample-2.bl";
+    private static final String FILE_NAME_3 = "data/statement-sample-3.bl";
 
     /**
      * Invokes the {@code Statement} constructor for the implementation under

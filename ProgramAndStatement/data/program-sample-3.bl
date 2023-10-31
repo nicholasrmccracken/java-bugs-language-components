@@ -1,13 +1,13 @@
-PROGRAM Sample3 IS
+PROGRAM Test IS
 
-    INSTRUCTION infection IS
+    INSTRUCTION one IS
         WHILE true DO
             look-for-something
             infect
             infect
             skip
         END WHILE
-    END infection
+    END one
 
 BEGIN
     move
@@ -15,24 +15,24 @@ BEGIN
         turnleft
         infection
         turnright
-        IF random THEN
+        IF next-is-not-enemy THEN
             move
             turnback
             move
             infect
             move
         ELSE
-            go-for-it
+            one
             WHILE next-is-empty DO
             END WHILE
-            urnleft
+            turnleft
             turnright
         END IF
         skip
         skip-again
     END IF
     move
-    move-one-more-time
+    one
     move
     WHILE next-is-wall DO
         IF next-is-not-wall THEN
@@ -53,4 +53,4 @@ BEGIN
             END WHILE
         END IF
     END WHILE
-END Sample3
+END Test

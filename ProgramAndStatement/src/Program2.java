@@ -177,9 +177,7 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Map<String, Statement> newContext() {
-        Map<String, Statement> current = this.context.newInstance();
-        current.transferFrom(this.context);
-        return current;
+        return this.context.newInstance();
     }
 
     @Override
@@ -202,10 +200,7 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Statement newBody() {
-        Statement current = this.body.newInstance();
-        current.transferFrom(this.body);
-        this.body = new Statement1();
-        return current;
+        return this.body.newInstance();
     }
 
     @Override

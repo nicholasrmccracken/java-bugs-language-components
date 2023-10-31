@@ -6,7 +6,8 @@ PROGRAM Sample3 IS
             infect
             infect
             skip
-    END WHILE
+        END WHILE
+    END infection
 
 BEGIN
     move

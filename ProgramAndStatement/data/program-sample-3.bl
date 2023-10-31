@@ -1,12 +1,12 @@
 PROGRAM Sample3 IS
 
-INSTRUCTION infection IS
+    INSTRUCTION infection IS
         WHILE true DO
             look-for-something
             infect
             infect
             skip
-        END WHILE
+    END WHILE
 
 BEGIN
     move
@@ -27,8 +27,8 @@ BEGIN
             urnleft
             turnright
         END IF
-    skip
-    skip-again
+        skip
+        skip-again
     END IF
     move
     move-one-more-time

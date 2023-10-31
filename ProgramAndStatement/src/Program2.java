@@ -105,11 +105,9 @@ public class Program2 extends ProgramSecondary {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
-        // TODO - fill in body
-        // Make sure to use Statement1 from the library
-        // Use Map1L for the context if you want the asserts below to match
-
+        this.name = "Unnamed";
+        this.context = new Map1L<String, Statement>();
+        this.body = new Statement1();
     }
 
     /*
@@ -179,7 +177,9 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Map<String, Statement> newContext() {
-        return this.context.newInstance();
+        Map<String, Statement> current = this.context;
+        this.context = new Map1L<String, Statement>();
+        return current;
     }
 
     @Override
@@ -194,12 +194,17 @@ public class Program2 extends ProgramSecondary {
         assert allBlocks(c) : "Violation of: bodies in c"
                 + " are all BLOCK statements";
 
-        this.context = c;
+        Map<String, Statement> temp = this.context.newInstance();
+        temp.transferFrom(this.context);
+        this.context.transferFrom(c);
+        c.transferFrom(c);
     }
 
     @Override
     public final Statement newBody() {
-        return this.body.newInstance();
+        Statement current = this.body;
+        this.body = new Statement1();
+        return current;
     }
 
     @Override
@@ -208,7 +213,10 @@ public class Program2 extends ProgramSecondary {
         assert b instanceof Statement1 : "Violation of: b is a Statement1";
         assert b.kind() == Kind.BLOCK : "Violation of: b is a BLOCK statement";
 
-        this.body = b;
+        Statement temp = this.body.newInstance();
+        temp.transferFrom(this.body);
+        this.body.transferFrom(b);
+        b.transferFrom(temp);
     }
 
 }

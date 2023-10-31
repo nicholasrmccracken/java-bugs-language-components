@@ -19,10 +19,16 @@ import components.statement.Statement;
 public abstract class ProgramTest {
 
     /**
-     * The name of a file containing a BL program.
+     * The name of file 1 containing a BL program.
      */
     private static final String FILE_NAME_1 = "data/program-sample-1.bl";
+    /**
+     * The name of file 2 containing a BL program.
+     */
     private static final String FILE_NAME_2 = "data/program-sample-2.bl";
+    /**
+     * The name of file 3 containing a BL program.
+     */
     private static final String FILE_NAME_3 = "data/program-sample-3.bl";
 
     /**

@@ -177,6 +177,10 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Map<String, Statement> newContext() {
+        /*
+         * Explicity return the dynamic type of the context for this specific
+         * program kernel
+         */
         return new Map1L<String, Statement>();
     }
 
@@ -192,6 +196,7 @@ public class Program2 extends ProgramSecondary {
         assert allBlocks(c) : "Violation of: bodies in c"
                 + " are all BLOCK statements";
 
+        // Swap using a temp variable of same dynamic type as the context of this
         Map<String, Statement> temp = this.context.newInstance();
         temp.transferFrom(this.context);
         this.context.transferFrom(c);
@@ -200,6 +205,10 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Statement newBody() {
+        /*
+         * Explicity return the dynamic type of the body statement for this
+         * specific program kernel
+         */
         return new Statement1();
     }
 
@@ -209,6 +218,7 @@ public class Program2 extends ProgramSecondary {
         assert b instanceof Statement1 : "Violation of: b is a Statement1";
         assert b.kind() == Kind.BLOCK : "Violation of: b is a BLOCK statement";
 
+        // Swap using a temp variable of same dynamic type as the body of this
         Statement temp = this.body.newInstance();
         temp.transferFrom(this.body);
         this.body.transferFrom(b);

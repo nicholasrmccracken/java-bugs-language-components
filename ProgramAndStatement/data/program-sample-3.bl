@@ -8,6 +8,13 @@ PROGRAM Test IS
             skip
         END WHILE
     END one
+    
+    INSTRUCTION two IS
+        turnleft
+        move
+        turnright
+        move
+    END two
 
 BEGIN
     move

@@ -20,11 +20,25 @@ import components.utilities.Tokenizer;
 public abstract class StatementTest {
 
     /**
-     * The name of a file containing a sequence of BL statements.
+     * The name of file 1 containing a sequence of BL statements.
      */
     private static final String FILE_NAME_1 = "data/statement-sample-1.bl";
+    /**
+     * The name of file 2 containing a BL program.
+     */
     private static final String FILE_NAME_2 = "data/statement-sample-2.bl";
+    /**
+     * The name of file 3 containing a BL program.
+     */
     private static final String FILE_NAME_3 = "data/statement-sample-3.bl";
+    /**
+     * The name of file 4 containing a BL program.
+     */
+    private static final String FILE_NAME_4 = "data/statement-sample-4.bl";
+    /**
+     * The name of file 5 containing a BL program.
+     */
+    private static final String FILE_NAME_5 = "data/statement-sample-5.bl";
 
     /**
      * Invokes the {@code Statement} constructor for the implementation under
@@ -112,7 +126,7 @@ public abstract class StatementTest {
     }
 
     /**
-     * Test kind of a WHILE statement.
+     * Test kind of a WHILE statement on file 1.
      */
     @Test
     public final void testKindWhile() {
@@ -143,6 +157,33 @@ public abstract class StatementTest {
      */
     @Test
     public final void testAddToBlockInterior() {
+        /*
+         * Setup
+         */
+        Statement sTest = this.createFromFileTest(FILE_NAME_1);
+        Statement sRef = this.createFromFileRef(FILE_NAME_1);
+        Statement emptyBlock = sRef.newInstance();
+        Statement nestedTest = sTest.removeFromBlock(1);
+        Statement nestedRef = sRef.removeFromBlock(1);
+        sRef.addToBlock(2, nestedRef);
+
+        /*
+         * The call
+         */
+        sTest.addToBlock(2, nestedTest);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(emptyBlock, nestedTest);
+        assertEquals(sRef, sTest);
+    }
+
+    /**
+     * Test addToBlock at an interior position.
+     */
+    @Test
+    public final void testAddToBlockInterior2() {
         /*
          * Setup
          */

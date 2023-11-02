@@ -2,6 +2,7 @@ import components.sequence.Sequence;
 import components.statement.Statement;
 import components.statement.StatementSecondary;
 import components.tree.Tree;
+import components.tree.Tree1;
 import components.utilities.Tokenizer;
 
 /**
@@ -115,9 +116,13 @@ public class Statement2 extends StatementSecondary {
      * Creator of initial representation.
      */
     private void createNewRep() {
+        // Initialize tree representation
+        this.rep = new Tree1<StatementLabel>();
 
-        // TODO - fill in body
-
+        // Initialize representation as a childless block
+        StatementLabel root = new StatementLabel(Kind.BLOCK);
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+        this.rep.assemble(root, children);
     }
 
     /*
@@ -171,11 +176,7 @@ public class Statement2 extends StatementSecondary {
 
     @Override
     public final Kind kind() {
-
-        // TODO - fill in body
-
-        // Fix this line to return the result.
-        return null;
+        return this.rep.root().kind;
     }
 
     @Override
@@ -190,8 +191,17 @@ public class Statement2 extends StatementSecondary {
                 + "Violation of: pos <= [length of this BLOCK]";
         assert s.kind() != Kind.BLOCK : "Violation of: [s is not a BLOCK statement]";
 
-        // TODO - fill in body
+        Statement2 localS = (Statement2) s;
 
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        StatementLabel label = this.rep.disassemble(children);
+
+        children.add(pos, localS.rep);
+
+        this.rep.assemble(label, children);
+
+        localS.createNewRep();
     }
 
     @Override
@@ -209,7 +219,13 @@ public class Statement2 extends StatementSecondary {
          */
         Statement2 s = this.newInstance();
 
-        // TODO - fill in body
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        StatementLabel label = this.rep.disassemble(children);
+
+        s.rep = children.remove(pos);
+
+        this.rep.assemble(label, children);
 
         return s;
     }
@@ -219,10 +235,15 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.BLOCK : ""
                 + "Violation of: [this is a BLOCK statement]";
 
-        // TODO - fill in body
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
 
-        // Fix this line to return the result.
-        return 0;
+        StatementLabel label = this.rep.disassemble(children);
+
+        int length = children.length();
+
+        this.rep.assemble(label, children);
+
+        return length;
     }
 
     @Override
@@ -271,8 +292,32 @@ public class Statement2 extends StatementSecondary {
         assert s2
                 .kind() == Kind.BLOCK : "Violation of: [s2 is a BLOCK statement]";
 
-        // TODO - fill in body
+        /*
+         * Create local objects casted to statement dynamic type which reference
+         * arguments passed in
+         */
+        Statement2 localS1 = (Statement2) s1, localS2 = (Statement2) s2;
 
+        // Create if else label with condition parameter
+        StatementLabel label = new StatementLabel(Kind.IF_ELSE, c);
+
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        /*
+         * Add individual if and else statement labels to the sequence, thereby
+         * modeling them as children of the if else label root upon assembly in
+         * the main tree this
+         */
+        children.add(0, localS2.rep);
+        children.add(0, localS1.rep);
+
+        // Assemble this with if else label and child statements
+        this.rep.assemble(label, children);
+
+        // Clear parameter statements
+        localS1.createNewRep();
+        localS2.createNewRep();
     }
 
     @Override
@@ -287,10 +332,30 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.IF_ELSE : ""
                 + "Violation of: [this is an IF_ELSE statement]";
 
-        // TODO - fill in body
+        /*
+         * Create local objects casted to statement dynamic type which reference
+         * arguments passed in
+         */
+        Statement2 localS1 = (Statement2) s1, localS2 = (Statement2) s2;
 
-        // Fix this line to return the result.
-        return null;
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        // Store if else label, which is stored in root of tree
+        StatementLabel label = this.rep.disassemble(children);
+
+        /*
+         * Remove if and else children from tree and store them in parameter
+         * statements
+         */
+        localS1.rep = children.remove(0);
+        localS2.rep = children.remove(0);
+
+        // Clear this since it's statement has been removed
+        this.createNewRep();
+
+        // Return if else condition
+        return label.condition;
     }
 
     @Override
@@ -301,8 +366,30 @@ public class Statement2 extends StatementSecondary {
         assert s instanceof Statement2 : "Violation of: s is a Statement2";
         assert s.kind() == Kind.BLOCK : "Violation of: [s is a BLOCK statement]";
 
-        // TODO - fill in body
+        /*
+         * Create local objects casted to statement dynamic type which reference
+         * arguments passed in.
+         */
+        Statement2 localS = (Statement2) s;
 
+        // Create while label with condition parameter
+        StatementLabel label = new StatementLabel(Kind.WHILE, c);
+
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        /*
+         * Add individual while statement label to the sequence, thereby
+         * modeling them as children of the while label root upon assembly in
+         * the main tree this
+         */
+        children.add(0, localS.rep);
+
+        // Assemble this with while label and child statement
+        this.rep.assemble(label, children);
+
+        // Clear parameter statement
+        localS.createNewRep();
     }
 
     @Override
@@ -313,10 +400,26 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.WHILE : ""
                 + "Violation of: [this is a WHILE statement]";
 
-        // TODO - fill in body
+        /*
+         * Create local objects casted to statement dynamic type which reference
+         * arguments passed in
+         */
+        Statement2 localS = (Statement2) s;
 
-        // Fix this line to return the result.
-        return null;
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        // Store while label, which is stored in root of tree
+        StatementLabel label = this.rep.disassemble(children);
+
+        // Remove while child from tree and store it in parameter statement
+        localS.rep = children.remove(0);
+
+        // Clear this since it's statement has been removed
+        this.createNewRep();
+
+        // Return if else condition
+        return label.condition;
     }
 
     @Override
@@ -325,8 +428,14 @@ public class Statement2 extends StatementSecondary {
         assert Tokenizer.isIdentifier(inst) : ""
                 + "Violation of: inst is a valid IDENTIFIER";
 
-        // TODO - fill in body
+        // Create while label with condition parameter
+        StatementLabel label = new StatementLabel(Kind.CALL, inst);
 
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        // Assemble this with call label and no children
+        this.rep.assemble(label, children);
     }
 
     @Override
@@ -334,10 +443,17 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.CALL : ""
                 + "Violation of: [this is a CALL statement]";
 
-        // TODO - fill in body
+        // Create a sequence to store tree children of the same type as this
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
 
-        // Fix this line to return the result.
-        return null;
+        // Store while label, which is stored in root of tree
+        StatementLabel label = this.rep.disassemble(children);
+
+        // Clear this since it's statement has been removed
+        this.createNewRep();
+
+        // Return call instruction
+        return label.instruction;
     }
 
 }

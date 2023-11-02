@@ -1,0 +1,15 @@
+PROGRAM Test IS
+
+BEGIN
+	IF next-is-enemy THEN
+		move
+		turnleft
+		turnleft
+	ELSE
+		skip
+	END IF
+	WHILE true DO
+		infect
+		turnright
+	END WHILE
+END Test

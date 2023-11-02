@@ -30,6 +30,14 @@ public abstract class ProgramTest {
      * The name of file 3 containing a BL program.
      */
     private static final String FILE_NAME_3 = "data/program-sample-3.bl";
+    /**
+     * The name of file 4 containing a BL program.
+     */
+    private static final String FILE_NAME_4 = "data/program-sample-4.bl";
+    /**
+     * The name of file 5 containing a BL program.
+     */
+    private static final String FILE_NAME_5 = "data/program-sample-5.bl";
 
     /**
      * Invokes the {@code Program} constructor for the implementation under test
@@ -176,6 +184,52 @@ public abstract class ProgramTest {
     }
 
     /**
+     * Test name for file 4.
+     */
+    @Test
+    public final void testNameFile4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+
+        /*
+         * The call
+         */
+        String result = pTest.name();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals("Test", result);
+    }
+
+    /**
+     * Test name for file 5.
+     */
+    @Test
+    public final void testNameFile5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
+
+        /*
+         * The call
+         */
+        String result = pTest.name();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals("Test", result);
+    }
+
+    /**
      * Test setName for file 1.
      */
     @Test
@@ -248,6 +302,54 @@ public abstract class ProgramTest {
     }
 
     /**
+     * Test setName for file 4.
+     */
+    @Test
+    public final void testSetName4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+        String newName = "Replacement";
+        pRef.setName(newName);
+
+        /*
+         * The call
+         */
+        pTest.setName(newName);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+    }
+
+    /**
+     * Test setName for file 5.
+     */
+    @Test
+    public final void testSetName5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
+        String newName = "Replacement";
+        pRef.setName(newName);
+
+        /*
+         * The call
+         */
+        pTest.setName(newName);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+    }
+
+    /**
      * Test newContext for file 1.
      */
     @Test
@@ -305,6 +407,54 @@ public abstract class ProgramTest {
          */
         Program pTest = this.createFromFileTest(FILE_NAME_3);
         Program pRef = this.createFromFileRef(FILE_NAME_3);
+        Map<String, Statement> cRef = pRef.newContext();
+
+        /*
+         * The call
+         */
+        Map<String, Statement> cTest = pTest.newContext();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(cRef, cTest);
+    }
+
+    /**
+     * Test newContext for file 4.
+     */
+    @Test
+    public final void testNewContext4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+        Map<String, Statement> cRef = pRef.newContext();
+
+        /*
+         * The call
+         */
+        Map<String, Statement> cTest = pTest.newContext();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(cRef, cTest);
+    }
+
+    /**
+     * Test newContext for file 5.
+     */
+    @Test
+    public final void testNewContext5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
         Map<String, Statement> cRef = pRef.newContext();
 
         /*
@@ -452,6 +602,94 @@ public abstract class ProgramTest {
     }
 
     /**
+     * Test swapContext for file 4.
+     */
+    @Test
+    public final void testSwapContext4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+        Map<String, Statement> contextRef = pRef.newContext();
+        Map<String, Statement> contextTest = pTest.newContext();
+        String oneName = "one";
+        pRef.swapContext(contextRef);
+        Pair<String, Statement> oneRef = contextRef.remove(oneName);
+        /* contextRef now has just "two" */
+        pRef.swapContext(contextRef);
+        /* pRef's context now has just "two" */
+        contextRef.add(oneRef.key(), oneRef.value());
+        /* contextRef now has just "one" */
+
+        /* Make the reference call, replacing, in pRef, "one" with "two": */
+        pRef.swapContext(contextRef);
+
+        pTest.swapContext(contextTest);
+        Pair<String, Statement> oneTest = contextTest.remove(oneName);
+        /* contextTest now has just "two" */
+        pTest.swapContext(contextTest);
+        /* pTest's context now has just "two" */
+        contextTest.add(oneTest.key(), oneTest.value());
+        /* contextTest now has just "one" */
+
+        /*
+         * The call
+         */
+        pTest.swapContext(contextTest);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(contextRef, contextTest);
+    }
+
+    /**
+     * Test swapContext for file 5.
+     */
+    @Test
+    public final void testSwapContext5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
+        Map<String, Statement> contextRef = pRef.newContext();
+        Map<String, Statement> contextTest = pTest.newContext();
+        String oneName = "one";
+        pRef.swapContext(contextRef);
+        Pair<String, Statement> oneRef = contextRef.remove(oneName);
+        /* contextRef now has just "two" */
+        pRef.swapContext(contextRef);
+        /* pRef's context now has just "two" */
+        contextRef.add(oneRef.key(), oneRef.value());
+        /* contextRef now has just "one" */
+
+        /* Make the reference call, replacing, in pRef, "one" with "two": */
+        pRef.swapContext(contextRef);
+
+        pTest.swapContext(contextTest);
+        Pair<String, Statement> oneTest = contextTest.remove(oneName);
+        /* contextTest now has just "two" */
+        pTest.swapContext(contextTest);
+        /* pTest's context now has just "two" */
+        contextTest.add(oneTest.key(), oneTest.value());
+        /* contextTest now has just "one" */
+
+        /*
+         * The call
+         */
+        pTest.swapContext(contextTest);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(contextRef, contextTest);
+    }
+
+    /**
      * Test newBody for file 1.
      */
     @Test
@@ -509,6 +747,54 @@ public abstract class ProgramTest {
          */
         Program pTest = this.createFromFileTest(FILE_NAME_3);
         Program pRef = this.createFromFileRef(FILE_NAME_3);
+        Statement bRef = pRef.newBody();
+
+        /*
+         * The call
+         */
+        Statement bTest = pTest.newBody();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(bRef, bTest);
+    }
+
+    /**
+     * Test newBody for file 4.
+     */
+    @Test
+    public final void testNewBody4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+        Statement bRef = pRef.newBody();
+
+        /*
+         * The call
+         */
+        Statement bTest = pTest.newBody();
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(bRef, bTest);
+    }
+
+    /**
+     * Test newBody for file 5.
+     */
+    @Test
+    public final void testNewBody5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
         Statement bRef = pRef.newBody();
 
         /*
@@ -619,6 +905,92 @@ public abstract class ProgramTest {
          */
         Program pTest = this.createFromFileTest(FILE_NAME_3);
         Program pRef = this.createFromFileRef(FILE_NAME_3);
+        Statement bodyRef = pRef.newBody();
+        Statement bodyTest = pTest.newBody();
+        pRef.swapBody(bodyRef);
+        Statement firstRef = bodyRef.removeFromBlock(0);
+        /* bodyRef now lacks the first statement */
+        pRef.swapBody(bodyRef);
+        /* pRef's body now lacks the first statement */
+        bodyRef.addToBlock(0, firstRef);
+        /* bodyRef now has just the first statement */
+
+        /* Make the reference call, replacing, in pRef, remaining with first: */
+        pRef.swapBody(bodyRef);
+
+        pTest.swapBody(bodyTest);
+        Statement firstTest = bodyTest.removeFromBlock(0);
+        /* bodyTest now lacks the first statement */
+        pTest.swapBody(bodyTest);
+        /* pTest's body now lacks the first statement */
+        bodyTest.addToBlock(0, firstTest);
+        /* bodyTest now has just the first statement */
+
+        /*
+         * The call
+         */
+        pTest.swapBody(bodyTest);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(bodyRef, bodyTest);
+    }
+
+    /**
+     * Test swapBody for file 4.
+     */
+    @Test
+    public final void testSwapBody4() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_4);
+        Program pRef = this.createFromFileRef(FILE_NAME_4);
+        Statement bodyRef = pRef.newBody();
+        Statement bodyTest = pTest.newBody();
+        pRef.swapBody(bodyRef);
+        Statement firstRef = bodyRef.removeFromBlock(0);
+        /* bodyRef now lacks the first statement */
+        pRef.swapBody(bodyRef);
+        /* pRef's body now lacks the first statement */
+        bodyRef.addToBlock(0, firstRef);
+        /* bodyRef now has just the first statement */
+
+        /* Make the reference call, replacing, in pRef, remaining with first: */
+        pRef.swapBody(bodyRef);
+
+        pTest.swapBody(bodyTest);
+        Statement firstTest = bodyTest.removeFromBlock(0);
+        /* bodyTest now lacks the first statement */
+        pTest.swapBody(bodyTest);
+        /* pTest's body now lacks the first statement */
+        bodyTest.addToBlock(0, firstTest);
+        /* bodyTest now has just the first statement */
+
+        /*
+         * The call
+         */
+        pTest.swapBody(bodyTest);
+
+        /*
+         * Evaluation
+         */
+        assertEquals(pRef, pTest);
+        assertEquals(bodyRef, bodyTest);
+    }
+
+    /**
+     * Test swapBody for file 5.
+     */
+    @Test
+    public final void testSwapBody5() {
+        /*
+         * Setup
+         */
+        Program pTest = this.createFromFileTest(FILE_NAME_5);
+        Program pRef = this.createFromFileRef(FILE_NAME_5);
         Statement bodyRef = pRef.newBody();
         Statement bodyTest = pTest.newBody();
         pRef.swapBody(bodyRef);
